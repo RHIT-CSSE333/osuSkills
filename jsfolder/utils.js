@@ -430,3 +430,10 @@ function lerp( a,  b,  t)
 {
 	return a * (1 - t) + b * t;
 }
+
+
+module.exports = {M_PI, DegToRad, Rad2Deg, msToBPM, msToTimeString, IsHitObjectType, BOUND, getValue, getPercent, 
+	GetLastTickTime, GetDirAngle, GetAngle, GetCircleOverlapPercentage, FindHitobjectAt, GetNoteDistanceAt,
+	GetChaosAt, FindTimingAt, AR2ms, ms2AR, OD2ms, ms2OD, CS2px,BpmSv2px, erfInv, getMagnitude, getWeightedValue,
+	getWeightedValue2, getDecayFunction, getTopVals, getPeakVals, isOppositeParity, getValuePos, binomialCoefficient,
+	bernstein, lerp}
