@@ -91,5 +91,5 @@ class Vector2d {
 }
 
 module.exports = {
-    vector2d, clamp, reciprocal_sqareroot
+    Vector2d, clamp, reciprocal_sqareroot
 }
