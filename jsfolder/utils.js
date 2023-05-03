@@ -6,7 +6,6 @@ function DegToRad(angleDegrees) {
 
 
 function Rad2Deg(angleRadians) { 
-    
     return (angleRadians * 180.0 / M_PI)
 }
 
@@ -33,7 +32,7 @@ function msToTimeString(ms)
 }
 
 //may need modification
-IsHitObjectType(Type, type)
+function IsHitObjectType(Type, type)
 {
 	return (Type & type) > 0;
 }
@@ -48,12 +47,12 @@ function getValue( min,  max,  percent)
 	return Math.max(max, min) - (1.0 - percent)*(Math.max(max, min) - Math.min(max, min));
 }
 
-getPercent(_min, _val, _max)
+function getPercent(_min, _val, _max)
 {
 	return 1.0 - ((_max - BOUND(_min, _val, _max)) / (_max - _min));
 }
 
-GetLastTickTime(hitObj)
+function GetLastTickTime(hitObj)
 {
 	if (!(hitObj.ticks.length == 0))
 	{
@@ -88,7 +87,7 @@ function GetAngle(a, b, c)
 	return abs(DegToRad(GetDirAngle(a, b, c)));
 }
 
-GetCircleOverlapPercentage(beatmap, c1, c2)
+function GetCircleOverlapPercentage(beatmap, c1, c2)
 {
 	let distance = c1.pos.getDistanceFrom(c2.pos);
 	let radius = CS2px(beatmap.cs);
@@ -96,7 +95,7 @@ GetCircleOverlapPercentage(beatmap, c1, c2)
 	return (result < 0) ? 0 : result;
 }
 
-FindHitobjectAt(_hitobjects, _time, _dir)
+function FindHitobjectAt(_hitobjects, _time, _dir)
 {
 	let start = 0;
 	let end = _hitobjects.length - 2;
@@ -348,7 +347,7 @@ function getDecayFunction(vals, decay, output)
 
 function getTopVals(vals, numVals,output)
 {
-	let output = [0];
+	output = [0];
 	for (let i = 0; i < vals.length; i++)
 	{
 		// TODO: Binary search instead of going one by one for optimization
@@ -413,7 +412,7 @@ function binomialCoefficient(n, k)
         return 1;
     }
 
-	let k = Math.min(k, n - k);  // take advantage of symmetry
+	k = Math.min(k, n - k);  // take advantage of symmetry
 	let c = 1;
 	for (let i = 0; i < k; i++){
 		c = c * (n - i) / (i + 1);
