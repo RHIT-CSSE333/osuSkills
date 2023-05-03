@@ -70,8 +70,8 @@ function GetLastTickTime(hitObj)
 // Positive is counter-clock wise and negative is clock-wise
 function GetDirAngle(a, b, c)
 {
-	let ab = [ b[0] - a[0], b[1] - a[1] ];
-	let cb = [ b[0] - c[0], b[1] - c[1] ];
+	let ab = [ b.X - a.X, b.Y - a.Y ];
+	let cb = [ b.X - c.X, b.Y - c.Y ];
 
 	let dot = (ab[0] * cb[0] + ab[1] * cb[1]); // dot product
 	let cross = (ab[0] * cb[1] - ab[1] * cb[0]); // cross product
@@ -84,7 +84,7 @@ function GetDirAngle(a, b, c)
 // Returns the angle 3 points make in radians between 0 and pi
 function GetAngle(a, b, c)
 {
-	return abs(DegToRad(GetDirAngle(a, b, c)));
+	return Math.abs(DegToRad(GetDirAngle(a, b, c)));
 }
 
 function GetCircleOverlapPercentage(beatmap, c1, c2)
@@ -131,18 +131,18 @@ function FindHitobjectAt(_hitobjects, _time, _dir)
 
 function GetNoteDistanceAt(beatmap, i, aimpoint)
 {
-	let distance = 0;
-	let prevPos = [];
-    let currPos = [];
+	let distance = 0.0;
+	let prevPos = null;
+    let currPos = null;
 
 	if (aimpoint)
 	{
-		prevPos = beatmap.aimPoints.at(i - 1).pos,
+		prevPos = beatmap.aimPoints.at(i - 1).pos;
 		currPos = beatmap.aimPoints.at(i).pos;
 	}
 	else
 	{
-		prevPos = beatmap.hitObjects.at(i - 1).pos,
+		prevPos = beatmap.hitObjects.at(i - 1).pos;
 		currPos = beatmap.hitObjects.at(i).pos;
 	}
 
