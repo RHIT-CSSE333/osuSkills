@@ -1,6 +1,6 @@
-const vector2d = require("vector2d.js");
-const globals = require("globals.js");
-const utils = require("utils.js");
+const vector2d = require("./vector2d.js");
+const globals = require("./globals.js");
+const utils = require("./utils.js");
 
 class Bezier {
 
@@ -8,8 +8,8 @@ class Bezier {
         this._points = _points;
 
         this.approxlength = 0.0;
-        for (let i = 0; i < points.size() - 1; i++){
-            this.approxlength += points[i].getDistanceFrom(points[i + 1]);
+        for (let i = 0; i < _points.length - 1; i++){
+            this.approxlength += _points[i].getDistanceFrom(_points[i + 1]);
         }
 
         init(approxlength);
@@ -34,7 +34,7 @@ class Bezier {
 
 pointAt(t)
 {
-    let c = new Vector2d();
+    let c = new vector2d.Vector2d();
 	let n = points.length - 1;
 	for (let i = 0; i <= n; i++) 
 	{
