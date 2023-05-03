@@ -7,9 +7,11 @@ function reciprocal_sqareroot(x) {
 }
 
 class Vector2d {
-    constructor() { this.X = 0; this.Y = 0; }
-
-    constructor(nx, ny) { this.X = nx; this.Y = ny; }
+    constructor() {
+        if(arguments.length == 0) { this.X = 0, this.Y = 0; return; }
+        else if(arguments.length == 1){ this.X = arguments[0]; this.Y = arguments[0]; return; }
+        else { this.X = arguments[0]; this.Y = arguments[1];}
+    }
 
     minus() { return new Vector2d(-X, -Y) }
     override(other) { X = other.X; Y = other.Y; return this; }
@@ -86,4 +88,8 @@ class Vector2d {
     midPoint(other) { return new Vector2d((X + other.X) / 2, (Y + other.Y) / 2) }
 
     get nor() { return new Vector2d(-this.Y, this.X) }
+}
+
+module.exports = {
+    vector2d, clamp, reciprocal_sqareroot
 }
