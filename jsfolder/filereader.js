@@ -211,3 +211,17 @@ function parseBeatmap (filepath, beatmap) {
     })
 }
 
+function getMapListFromFile(filepath, mapList) {
+    const fileStream = fs.createReadStream(filepath);
+
+    const r1 = readline.createInterface({
+        input: fileStream,
+        clrfDelay: Infinity
+    });
+
+    r1.on('line', (line) => {
+        if(line.length == 0 || line.indexOf('//') == -1) return;
+        
+        mapList.push(line);
+    })
+}
