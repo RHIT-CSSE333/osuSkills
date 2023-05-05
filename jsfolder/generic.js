@@ -185,7 +185,7 @@ function gatherAimPoints(beatmap) {
             beatmap.aimPoints.push([hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER]);
 
             let endTime = utils.GetLastTickTime(hitObj)
-            let endPos = utils.GetSliderPos(hitObj, endTime);
+            let endPos = slider.GetSliderPos(hitObj, endTime);
 
             if (hitObj.ticks.length || hitObj.pos.getDistanceFrom(endPos) > 2 * utils.CS2px(beatmap.cs))
                 beatmap.aimPoints.push([endTime, endPos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDEREND]);

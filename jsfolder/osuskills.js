@@ -1,8 +1,12 @@
 const slider = require("./slider.js")
 const vector2d = require("./vector2d.js")
+const filereader = require('./filereader.js')
+const tweak = require('./tweakvars.js')
+const modFile = require('./mods.js')
+const strains = require('./strains.js')
+const globals = require('./globals.js')
 
-function PreprocessMap(beatmap)
-{
+function PreprocessMap(beatmap) {
     if (beatmap.hitObjects.length < 2)
     {
         console.log("The map has less than 2 hit objects!");
@@ -19,8 +23,7 @@ function PreprocessMap(beatmap)
     return 1;
 }
 
-function CalculateSkills(beatmap)
-	{
+function CalculateSkills(beatmap) {
 		CalculateReaction(beatmap, HasMod(beatmap, HD));
 		CalculateStamina(beatmap);
 		CalculateTenacity(beatmap);
@@ -36,4 +39,33 @@ function CalculateSkills(beatmap)
 			CalculateMemory(beatmap);
 		}
 		CalculateReading(beatmap, HasMod(beatmap, HD));
+}
+
+function ProcessFile(filepath, mods, beatmap) {
+	if(!filereader.parseBeatmap(filepath, beatmap)) {
+		console.log(`Parsin of ${filepath} failed!`)
+		return 0;
 	}
+
+	if(mods != 0) modFile.applyMods(beatmap, mods);
+}
+
+function CalculateBeatmapSkills(filepath, circles, sliderspinners, mods,
+	skills, name, ar, cs) {
+	let beatmap = {};
+
+	if(!ProcessFile(filepath, mods, beatmap)) {
+		console.log(`failed to parse @${filepath}!`);
+		return 1;
+	}
+
+	strains.CalculateAimStrains(beatmap);
+	strains.CalculateTapStrains(beatmap);
+	CalculateSkills(beatmap);
+
+	return beatmap;
+}
+
+module.exports = {
+	PreprocessMap, CalculateSkills, ProcessFile, CalculateBeatmapSkills
+}

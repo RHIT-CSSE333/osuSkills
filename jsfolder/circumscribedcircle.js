@@ -109,3 +109,5 @@ pointAt(t)
 }
 
 }
+
+module.exports = { CircumscribedCircle }

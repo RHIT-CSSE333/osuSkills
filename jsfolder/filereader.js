@@ -225,3 +225,7 @@ function getMapListFromFile(filepath, mapList) {
         mapList.push(line);
     })
 }
+
+module.exports = {
+    tokenize, getMapListFromFile, parseBeatmap
+}

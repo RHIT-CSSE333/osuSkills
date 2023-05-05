@@ -30,6 +30,37 @@ function applyMods(beatmap, mods) {
     }
 
     if(hasMod(beatmap, globals.MODS.HT)) {
-        
+        for(let obj of beatmap.hitObjects) {
+            obj.time = Math.ceil(obj.time / 0.75);
+        }
+
+        for(let timing of beatmap.timingPoints) {
+            if(timing.beatInterval > 0) 
+                timing.beatInterval /= 0.75;
+            timing.offset = Math.ceil(timing.offset / 0.75);
+        }
+
+        beatmap.ar = utils.ms2AR(Math.floor(AR2ms(beatmap.ar) / 0.75))
     }
+
+    if(hasMod(beatmap, globals.MODS.DT)) {
+        for(let obj of beatmap.hitObjects) {
+            obj.time = Math.ceil(obj.time / 1.5);
+        }
+
+        for(let timing of beatmap.timingPoints) {
+            if(timing.beatInterval > 0) 
+                timing.beatInterval /= 1.5;
+
+            timing.offset = Math.ceil(timing.offset / 1.5);
+        }
+
+        beatmap.ar = utils.ms2AR(Math.floor(AR2ms(beatmap.ar) / 1.5))
+    }
+
+    return 1;
+}
+
+module.exports = {
+    applyMods, hasMod
 }
