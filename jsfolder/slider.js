@@ -248,3 +248,7 @@ class Slider {
 	}
 
 }
+
+module.exports = {
+	Slider
+}

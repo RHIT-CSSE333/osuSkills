@@ -76,7 +76,6 @@ function GetVar(skill, name)
 	}	
 }
 
-
-
-
-
+module.exports = {
+    GetVar
+}

@@ -3,8 +3,9 @@ const generic = require("./generic.js")
 const globals = require("./globals.js")
 const vector2d = require("./vector2d.js")
 const fs = require('fs');
+const readline = require('node:readline')
 
-import * as readline from 'node:readline'
+// import * as readline from 'node:readline'
 
 function tokenize(str, tokens, delimiters = " ", trimEmpty) {
     let pos, lastPos = 0

@@ -2,7 +2,7 @@ const utils = require("./utils.js")
 const globals = require("./globals.js")
 const strains = require("./strains.js")
 const slider = require("./slider.js")
-const cc = require("./circumscribedCircle.js")
+const cc = require("./circumscribedcircle.js")
 
 function prepareAimData(beatmap) {
     calculateMovementData(beatmap)
