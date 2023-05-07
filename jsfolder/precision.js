@@ -9,7 +9,7 @@ function CalculatePrecision(beatmap, hidden)
 	if (beatmap.skills.agility > GetVar("Precision", "AgilityLimit"))
 		scaledAgility = 1;
 
-	scaledAgility = pow(beatmap.skills.agility + 1, GetVar("Precision", "AgilityPow")) - GetVar("Precision", "AgilitySubtract");
+	scaledAgility = Math.pow(beatmap.skills.agility + 1, GetVar("Precision", "AgilityPow")) - GetVar("Precision", "AgilitySubtract");
 
 	// the magic number above is to make an agility of 10 become 1 when scaled
 	beatmap.skills.precision = scaledAgility * beatmap.cs;

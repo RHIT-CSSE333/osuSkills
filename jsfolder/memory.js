@@ -30,7 +30,7 @@ function CalculateMemory(beatmap)
 	let old = beatmap.hitObjects[0];
 	let combo = 0; // combo counter
 	
-	for (let i = 1; i < (int)(beatmap.hitObjects.size()); i++)
+	for (let i = 1; i < (int)(beatmap.hitObjects.length); i++)
 	{
 		let cur = beatmap.hitObjects[i];
 		let memPoints = 0;
@@ -44,8 +44,8 @@ function CalculateMemory(beatmap)
 		//observableDist += CS2px(beatmap.cs);
 		
 		let sliderBonusFactor = 1;
-		if (IsHitObjectType(old.type, SLIDER))
-			sliderBonusFactor = GetVar("Memory", "SliderBuff");
+		if (utils.IsHitObjectType(old.type, globals.HITOBJECTTYPE.Slider))
+			sliderBonusFactor = mods.GetVar("Memory", "SliderBuff");
 		
 		let observable = false;
 		let helpPixels = 0; // it's easier to navigate when you see approaches / circle border (HD)
@@ -57,12 +57,12 @@ function CalculateMemory(beatmap)
 			if (!HasMod(beatmap, HD))
 			{
 				let size = GetApproachRelativeSize(prev.endTime, cur.time, beatmap.ar);
-				helpPixels = static_cast<int>(size * CS2px(beatmap.cs));
+				helpPixels = Math.floor(size * CS2px(beatmap.cs));
 			}
 			else
 			{
 				let observableTime = cur.time;
-				observableTime = cur.time - static_cast<int>(static_cast<double>(AR2ms(beatmap.ar)) * 0.3); // hd dissapear interval
+				observableTime = cur.time - Math.floor(static_cast<double>(AR2ms(beatmap.ar)) * 0.3); // hd dissapear interval
 				if (prev.time > observableTime)
 					continue; // dissapeared already
 				helpPixels = CS2px(beatmap.cs); // we can see more of a circle than just it's center point
@@ -79,13 +79,13 @@ function CalculateMemory(beatmap)
 			if (!HasMod(beatmap, HD))
 			{
 				let size = GetApproachRelativeSize(old.endTime, cur.time, beatmap.ar);
-				helpPixels = static_cast<int>(size * CS2px(beatmap.cs));
+				helpPixels = Math.floor(size * CS2px(beatmap.cs));
 			}
 			else
 			{
 				helpPixels = CS2px(beatmap.cs); // we can see more of a circle than just it's center point
 			}
-			if (IsHitObjectType(cur.type, NewCombo) || IsHitObjectType(cur.type, ColourHax)) // only new combo changes
+			if (IsHitObjectType(cur.type, HITOBJECTTYPE.NewCombo) || IsHitObjectType(cur.type, HITOBJECTTYPE.ColorHax)) // only new combo changes
 			{
 				let dist = cur.pos.getDistanceFrom(old.endPoint);
 				// saving (distance/time) for spaced apart parts without followpoints
@@ -103,9 +103,9 @@ function CalculateMemory(beatmap)
 		}
 
 		// count combo
-		if (IsHitObjectType(cur.type, Normal) || IsHitObjectType(cur.type, Spinner))
+		if (IsHitObjectType(cur.type, globals.HITOBJECTTYPE.Normal) || IsHitObjectType(cur.type, globals.HITOBJECTTYPE.Spinner))
 			combo++;
-		else if (IsHitObjectType(cur.type, SLIDER))
+		else if (IsHitObjectType(cur.type, globals.HITOBJECTTYPE.Slider))
 			combo += cur.ticks.size() + 2;
 
 		old = cur; // save previous object

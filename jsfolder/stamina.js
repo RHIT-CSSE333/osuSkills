@@ -4,10 +4,10 @@ const utils = require('./utils.js');
 
 function CalculateStamina(beatmap)
 {
-	let max = max_element(begin(beatmap.tapStrains), end(beatmap.tapStrains));
-	let index = distance(beatmap.tapStrains.begin(), max);
+	let max = max(beatmap.tapStrains);
+	let index = beatmap.tapStrains.indexOf(max);
 	let time = beatmap.hitObjects[index].time;
 	beatmap.skills.stamina = max;
-	beatmap.skills.stamina = GetVar("Stamina", "TotalMult") * pow(beatmap.skills.stamina, GetVar("Stamina", "TotalPow"));
+	beatmap.skills.stamina = GetVar("Stamina", "TotalMult") * Math.pow(beatmap.skills.stamina, GetVar("Stamina", "TotalPow"));
 	return beatmap.skills.stamina;
 }
