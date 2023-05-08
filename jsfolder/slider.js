@@ -10,10 +10,10 @@ class Slider {
 
 	constructor(hitObject, line) {
 		this.hitObject = hitObject;
-		this.line = line;
 		this.sliderX = [];
 		this.sliderY = [];
 		this.curve = [];
+		this.ncurve = 0;
 
 		let beziers = [];
 		let controlPoints = hitObject.curves.length + 1;
@@ -142,14 +142,6 @@ class Slider {
 		}
 	}
 
-	get EndAngle() {
-		return endAngle;
-	}
-
-	get StartAngle() {
-		return startAngle;
-	}
-
 	getX(i) {
 		return (i == 0) ? this.x : this.sliderX[i - 1];
 	}
@@ -250,20 +242,26 @@ function GetSliderPos(hitObject, time) {
 				percent = 1 - percent; // it's going back
 		}
 
+		console.log(`percent: ${percent}`)
+
 		// get the points
 		let ncurve = hitObject.ncurve;
 		let indexF = percent * ncurve;
 		let index = Math.floor(indexF);
 
-		console.log(`hitObject lerp points: `)
-		console.log(hitObject.lerpPoints)
+		console.log(`indexF: ${indexF}`)
+
+		console.log(`hitObject: `)
+		console.log(hitObject)
 
 		if (index >= hitObject.ncurve) {
 			let poi = hitObject.lerpPoints[ncurve];
 			return new vector2d.Vector2d(poi.X, poi.Y);
 		}
 		else {
+			console.log(index)
 			let poi = hitObject.lerpPoints[index];
+			console.log(poi)
 			let poi2 = hitObject.lerpPoints[index + 1];
 			let t2 = indexF - index;
 			return new vector2d.Vector2d(utils.lerp(poi.X, poi2.X, t2), utils.lerp(poi.Y, poi2.Y, t2));
