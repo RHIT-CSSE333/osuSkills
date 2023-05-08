@@ -2,6 +2,7 @@ const utils = require("./utils.js");
 const vector2d = require("./vector2d.js");
 const bezier = require("./bezier.js")
 const globals = require('./globals.js')
+const mathjs = require('math.js')
 
 const CURVE_POINTS_SEPERATION = 5;
 
@@ -25,8 +26,8 @@ class Slider {
 			this.sliderY.push(hitObject.curves[i].Y);
 		}
 
-		let x = hitObject.pos.X;
-		let y = hitObject.pos.Y;
+		this.x = hitObject.pos.X;
+		this.y = hitObject.pos.Y;
 
 		for (let i = 0; i < controlPoints; i++) {
 			let tpoi = new vector2d.Vector2d(this.getX(i), this.getY(i));
@@ -72,8 +73,14 @@ class Slider {
 	}
 
 	init(curvesList, hitObject) {
+		// console.log(hitObject);
+
 		// now try to creates points the are equidistant to each other
 		this.ncurve = Math.floor(hitObject.pixelLength / CURVE_POINTS_SEPERATION);
+		// console.log(this.ncurve)
+
+		// console.log('first')
+		// console.log(curvesList)
 
 		// if the slider has no curve points, force one in 
 		// a hitobject that the player holds must have at least one point
@@ -82,10 +89,14 @@ class Slider {
 			hitObject.endPoint = hitObject.pos;
 		}
 
+		// console.log('second')
+		// console.log(curvesList)
+
 		let distanceAt = 0;
 		let curveCounter = 0;
 		let curPoint = 0;
 		let curCurve = new bezier.Bezier(curvesList[curveCounter++]);
+		// console.log(curCurve)
 		let lastCurve = curCurve.curvePoints[0];
 		let lastDistanceAt = 0;
 
@@ -109,7 +120,10 @@ class Slider {
 						curPoint = curCurve.curvePoints.length - 1;
 
 						// out of points even though the preferred distance hasn't been reached
-						if (lastDistanceAt == distanceAt) break;
+						if (lastDistanceAt == distanceAt) {
+							// console.log('at break')
+							break;
+						} 
 					}
 				}
 				distanceAt += curCurve.curveDis[curPoint];
@@ -119,10 +133,12 @@ class Slider {
 			// interpolate the point between the two closest distances
 			if (distanceAt - lastDistanceAt > 1) {
 				let t = (prefDistance - lastDistanceAt) / (distanceAt - lastDistanceAt);
-				this.curve[i] = new vector2d.Vector2d(Math.lerp(lastCurve.X, thisCurve.X, t), lerp(lastCurve.Y, thisCurve.Y, t));
+				// console.log('im fucking leeeeerpiiiing')
+				this.curve.push(new vector2d.Vector2d(utils.lerp(lastCurve.X, thisCurve.X, t), utils.lerp(lastCurve.Y, thisCurve.Y, t)));
 			}
-			else
-				this.curve[i] = thisCurve;
+			else {
+				this.curve.push(thisCurve);
+			}
 		}
 	}
 
@@ -250,7 +266,7 @@ function GetSliderPos(hitObject, time) {
 			let poi = hitObject.lerpPoints[index];
 			let poi2 = hitObject.lerpPoints[index + 1];
 			let t2 = indexF - index;
-			return new vector2d.Vector2d(Math.lerp(poi.X, poi2.X, t2), Math.lerp(poi.Y, poi2.Y, t2));
+			return new vector2d.Vector2d(utils.lerp(poi.X, poi2.X, t2), utils.lerp(poi.Y, poi2.Y, t2));
 		}
 	}
 	else

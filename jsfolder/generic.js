@@ -169,7 +169,7 @@ function gatherTargetPoints(beatmap) {
                 targetPoint.key = i;
                 targetPoint.press = true;
 
-                beatmap.targetPoints.push_back(targetPoint);
+                beatmap.targetPoints.push(targetPoint);
             }
         }
 
@@ -231,6 +231,8 @@ function bakeSliderData(beatmap) {
                     let s = new slider.Slider(hitObject, false);
                     hitObject.lerpPoints = s.curve;
                     hitObject.ncurve = s.ncurve;
+                    console.log('B:')
+                    console.log(s.curve)
                     break;
                 }
                 case 'P': {
@@ -238,15 +240,21 @@ function bakeSliderData(beatmap) {
                         let c = new cc.CircumscribedCircle(hitObject);
                         hitObject.lerpPoints = c.curve;
                         hitObject.ncurve = c.ncurve;
+                        // console.log('P, circle:')
+                        // console.log(c.curve)
                     } else {
                         let s = new slider.Slider(hitObject, false)
-                        hitObject.lerpPoints = slider.curve;
-                        hitObject.ncurve = slider.ncurve
+                        console.log('P, slider:')
+                        hitObject.lerpPoints = s.curve;
+                        hitObject.ncurve = s.ncurve
+                        console.log(s.curve)
                     }
                     break;
                 }
                 case 'L': case 'C': {
                     let s = new slider.Slider(hitObject, true);
+                    // console.log('L/C')
+                    // console.log(s);
                     hitObject.lerpPoints = s.curve;
                     hitObject.ncurve = s.ncurve;
                     break;

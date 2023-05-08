@@ -88,6 +88,10 @@ class Vector2d {
     midPoint(other) { return new Vector2d((this.X + other.X) / 2, (this.Y + other.Y) / 2) }
 
     get nor() { return new Vector2d(-this.Y, this.X) }
+
+    get ToString() {
+        return (`Vector2D[X: ${this.X}, Y: ${this.Y}]`)
+    }
 }
 
 module.exports = {
