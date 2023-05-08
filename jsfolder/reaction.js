@@ -1,7 +1,7 @@
 const utils = require('./utils.js');
 const patterns = require('./patterns.js');
-const tweakvars = require('./tweakvars.js');
-const { HITOBJECTTYPE } = require('./globals.js');
+const tweaks = require('./tweakvars.js');
+const globals = require('./globals.js');
 // #include <algorithm>
 
 function PatternReq(p1, p2, p3, CSpx)
@@ -106,7 +106,7 @@ function getNextTickPoint(_hitobjects, _time)
 // Original model can be found at https://www.desmos.com/calculator/k9r2uipjfq
 function Pattern2Reaction(p1, p2, p3, ARms, CSpx)
 {
-	let damping = mods.GetVar("Reaction", "PatternDamping");		// opposite of sensitivity; how much the patterns' influence is damped
+	let damping = tweaks.GetVar("Reaction", "PatternDamping");		// opposite of sensitivity; how much the patterns' influence is damped
 	let curveSteepness = /*(300.0 / (ARms + 250.)) **/ damping;
 	let patReq = PatternReq(p1, p2, p3, CSpx);
 
@@ -124,7 +124,7 @@ function react2Skill(_timeToReact)
 function getReactionSkillAt(targetpoints, targetpoint, hitobjects, CS, AR, hidden)
 {
 	let timeToReact = 0.0;
-	let FadeInReactReq = mods.GetVar("Reaction", "FadeinPercent"); // players can react once the note is 10% faded in
+	let FadeInReactReq = tweaks.GetVar("Reaction", "FadeinPercent"); // players can react once the note is 10% faded in
 	let index = utils.FindTimingAt(targetpoints, targetpoint.time);
 
 	if (index >= targetpoints.size() - 2)
@@ -155,14 +155,14 @@ function getReactionSkillAt(targetpoints, targetpoint, hitobjects, CS, AR, hidde
 	}
 
 	//return 28.0*pow(react2Skill(timeToReact), 0.524); // to fit it on scale compared to other skills (v1)
-	return GetVar("Reaction", "VerScale")*Math.pow(react2Skill(timeToReact), GetVar("Reaction", "CurveExp")); // to fit it on scale compared to other skills (v2)
+	return tweaks.GetVar("Reaction", "VerScale")*Math.pow(react2Skill(timeToReact), GetVar("Reaction", "CurveExp")); // to fit it on scale compared to other skills (v2)
 }
 
 function CalculateReaction(beatmap, hidden)
 {
 	let max = 0;
 	let avg = 0;
-	let weight = GetVar("Reaction", "AvgWeighting");
+	let weight = tweaks.GetVar("Reaction", "AvgWeighting");
 
     beatmap.targetPoints.forEach((ticks) => {
         let val = getReactionSkillAt(beatmap.targetPoints, tick, beatmap.hitObjects, beatmap.cs, beatmap.ar, hidden);
@@ -172,4 +172,8 @@ function CalculateReaction(beatmap, hidden)
     });
 
 	beatmap.skills.reaction = (max + avg) / 2.0;
+}
+
+module.exports = {
+	CalculateReaction
 }

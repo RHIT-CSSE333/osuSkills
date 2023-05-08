@@ -24,7 +24,7 @@ function prepareTimingPoints(beatmap) {
     oldBeat = -100;
 
     let TP;
-    for (let i = 0; i < beatmap.timingPoints.size(); i++) {
+    for (let i = 0; i < beatmap.timingPoints.length; i++) {
         TP = beatmap.timingPoints[i]
         if (TP.inherited) {
             if (TP.beatInterval <= 0) {
@@ -63,8 +63,9 @@ function calculateMovementData(beatmap) {
 
     for (let i = 0; i < beatmap.hitObjects.length; i++) {
         if ((utils.IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Normal)
-            || utils.IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Slider) &&
-            previousTime != -1)) {
+            || utils.IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Slider)) &&
+            previousTime != -1) {
+
             let distance = beatmap.hitObjects[i].pos.getDistanceFrom(previousPos)
             let radSubtract = 2 * utils.CS2px(beatmap.cs)
             let interval = beatmap.hitObjects[i].time - previousTime;
@@ -80,15 +81,15 @@ function calculateMovementData(beatmap) {
             let distY = beatmap.hitObjects[i].pos.Y - previousPos.Y;
             beatmap.velocities.Y.push(distY / interval)
         }
-        if (IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Normal) ||
-            IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Slider)) {
+        if (utils.IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Normal) ||
+            utils.IsHitObjectType(beatmap.hitObjects[i].type, globals.HITOBJECTTYPE.Slider)) {
             previousPos = beatmap.hitObjects[i].pos;
             previousTime = beatmap.hitObjects[i].time;
         }
     }
 
     let oldVelX = 0, oldVelY = 0;
-    for (let i = 0; i < beatmap.velocities.X.length(); i++) {
+    for (let i = 0; i < beatmap.velocities.X.length; i++) {
         let velX = beatmap.velocities.X[i];
         let velY = beatmap.velocities.Y[i];
 
@@ -148,7 +149,7 @@ function gatherTapPatterns(beatmap) {
 function gatherTargetPoints(beatmap) {
     let targetPoint = {};
     let i = 0;
-    let prev_time = MIN_SAFE_INTEGER;
+    let prev_time = Math.MIN_SAFE_INTEGER;
 
     for (let hitObj of beatmap.hitObjects) {
         if (Math.abs(hitObj.time - prev_time) < 5) continue;

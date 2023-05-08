@@ -7,6 +7,7 @@ function CalculateTapStrains(beatmap) {
     let c = 0;
     let oldbonus;
     let strain = 0;
+
     for(let interval of beatmap.pressIntervals) {
         if(c == 0) {
             if(interval >= tweaks.GetVar("Stamina", "LargestInterval")) {
@@ -16,6 +17,8 @@ function CalculateTapStrains(beatmap) {
                     Math.pow(interval, tweaks.GetVar("Stamina", "Pow")) * 
                     tweaks.GetVar("Stamina", "Mult"));
             }
+
+            console.log(`strain: ${strain}`)
 
             beatmap.tapStrains.push(strain);
         } else {
@@ -30,6 +33,8 @@ function CalculateTapStrains(beatmap) {
 
                 strain += oldbonus * tweaks.GetVar("Stamina", "Decay");
             }
+
+            console.log(strain)
 
             beatmap.tapStrains.push(strain);
         }
@@ -90,7 +95,8 @@ function GetWeightedAimTime(time) {
 }*/
 
 function GetAngleDecayFunc(beatmap, output) {
-    let angleSpeeds;
+    let angleSpeeds = [];
+    // console.log(beatmap)
     for(let i = 1; i < beatmap.aimPoints.length - 1; i++) {
         let prevPos = beatmap.aimPoints[i-1].pos,
             currPos = beatmap.aimPoints[i].pos,
@@ -129,7 +135,7 @@ function GetAngleDecayFunc(beatmap, output) {
         angleSpeeds.push(radSpeed);
     }
 
-    utils.getDecayFunction(angleSpeed, 0.9, output);
+    utils.getDecayFunction(angleSpeeds, 0.9, output);
 }
 
 function GetChaosDecayFunc(beatmap, output) {
@@ -178,7 +184,7 @@ function CalculateAimStrains(beatmap) {
     GetChaosDecayFunc(beatmap, chaos);
     GetPrecisionDecayFunc(beatmap, precision);
 
-    let size = min(angles.length, chaos.length, precision.length)
+    let size = Math.min(angles.length, chaos.length, precision.length)
 
     for(let i = 0; i < size; i++) {
         let weight = utils.getMagnitude([angles[i], chaos[i], precision[i] * 0.1])

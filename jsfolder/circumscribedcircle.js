@@ -4,31 +4,33 @@ const vector2d = require("./vector2d.js")
 class CircumscribedCircle extends slider.Slider {
 
     constructor(hitObject){
+        super(hitObject, false)
+
         for (let i = 0; i < hitObject.curves.length; i++)
         {
-            sliderX.push(hitObject.curves[i].X);
-            sliderY.push(hitObject.curves[i].Y);
+            this.sliderX.push(hitObject.curves[i].X);
+            this.sliderY.push(hitObject.curves[i].Y);
         }
-        x = hitObject.pos.X;
-        y = hitObject.pos.Y;
+        this.x = hitObject.pos.X;
+        this.y = hitObject.pos.Y;
     
         // construct the three points
-        this.start = new vector2d.Vector2d(getX(0), getY(0));
-        this.mid = new vector2d.Vector2d(getX(1), getY(1));
-        this.end = new vector2d.Vector2d(getX(2), getY(2));
+        this.start = new vector2d.Vector2d(super.getX(0), super.getY(0));
+        this.mid = new vector2d.Vector2d(super.getX(1), super.getY(1));
+        this.end = new vector2d.Vector2d(super.getX(2), super.getY(2));
     
         // find the circle center
-        mida = start.midPoint(mid);
-        midb = end.midPoint(mid);
-        nora = (mid - start).nor();
-        norb = (mid - end).nor();
+        let mida = this.start.midPoint(this.mid);
+        let midb = this.end.midPoint(this.mid);
+        let nora = (this.mid.minus(this.start)).nor;
+        let norb = (this.mid.minus(this.end)).nor;
     
         //TODO: intersect?
-        this.circleCenter = intersect(mida, nora, midb, norb);
-        if (circleCenter == new vector2d.Vector2d(-1, -1))
+        this.circleCenter = this.intersect(mida, nora, midb, norb);
+        if (this.circleCenter == new vector2d.Vector2d(-1, -1))
         {
             // Temporary fallback to bezier slider
-            slidera = new slider.Slider(hitObject, true);
+            let slidera = new slider.Slider(hitObject, true);
             curve.resize(slidera.curve.size());
             curve = slidera.curve;
             ncurve = slidera.ncurve;
@@ -36,44 +38,44 @@ class CircumscribedCircle extends slider.Slider {
         }
     
         // find the angles relative to the circle center
-        let startAngPoint = start - circleCenter;
-        let midAngPoint = mid - circleCenter;
-        let endAngPoint = end - circleCenter;
+        let startAngPoint = this.start.minus(this.circleCenter);
+        let midAngPoint = this.mid.minus(this.circleCenter);
+        let endAngPoint = this.end.minus(this.circleCenter);
     
         this.startAng = Math.atan2(startAngPoint.Y, startAngPoint.X);
         this.midAng = Math.atan2(midAngPoint.Y, midAngPoint.X);
         this.endAng = Math.atan2(endAngPoint.Y, endAngPoint.X);
     
         // find the angles that pass through midAng
-        if (!isIn(startAng, midAng, endAng))
+        if (!this.isIn(this.startAng, this.midAng, this.endAng))
         {
-            if (Math.abs(startAng + TWO_PI - endAng) < TWO_PI && isIn(startAng + (TWO_PI), midAng, endAng))
-                startAng += TWO_PI;
-            else if (Math.abs(startAng - (endAng + TWO_PI)) < TWO_PI && isIn(startAng, midAng, endAng + (TWO_PI)))
-                endAng += TWO_PI;
-            else if (Math.abs(startAng - TWO_PI - endAng) < TWO_PI && isIn(startAng - (TWO_PI), midAng, endAng))
-                startAng -= TWO_PI;
-            else if (Math.abs(startAng - (endAng - TWO_PI)) < TWO_PI && isIn(startAng, midAng, endAng - (TWO_PI)))
-                endAng -= TWO_PI;
+            if (Math.abs(this.startAng + 2*Math.PI - this.endAng) < 2*Math.PI && this.isIn(this.startAng + (2*Math.PI), this.midAng, this.endAng))
+                this.startAng += 2*Math.PI;
+            else if (Math.abs(this.startAng - (this.endAng + 2*Math.PI)) < 2*Math.PI && this.isIn(this.startAng, this.midAng, this.endAng + (2*Math.PI)))
+                this.endAng += 2*Math.PI;
+            else if (Math.abs(this.startAng - 2*Math.PI - this.endAng) < 2*Math.PI && this.isIn(this.startAng - (2*Math.PI), this.midAng, this.endAng))
+                this.startAng -= 2*Math.PI;
+            else if (Math.abs(this.startAng - (this.endAng - 2*Math.PI)) < 2*Math.PI && this.isIn(this.startAng, this.midAng, this.endAng - (2*Math.PI)))
+                this.endAng -= 2*Math.PI;
             else
             {
-                console.log("Cannot find angles between midAng "+ end1);
+                console.log(`Cannot find angles between midAng ${this.startAng, this.midAng, this.endAng}`);
                     //startAng, midAng, endAng), null, true
                 return;
             }
         }
     
         // find an angle with an arc length of pixelLength along this circle
-        this.radius = startAngPoint.getLength();
+        this.radius = startAngPoint.length;
         let pixelLength = hitObject.pixelLength;
-        let arcAng = pixelLength / radius;  // len = theta * r / theta = len / r
+        let arcAng = pixelLength / this.radius;  // len = theta * r / theta = len / r
     
         // now use it for our new end angle
-        this.endAng = (endAng > startAng) ? startAng + arcAng : startAng - arcAng;
+        this.endAng = (this.endAng > this.startAng) ? this.startAng + this.arcAng : this.startAng - this.arcAng;
     
         // calculate points
-        let step = hitObject.pixelLength / CURVE_POINTS_SEPERATION;
-        ncurve = Math.floor(step);
+        let step = hitObject.pixelLength / slider.CURVE_POINTS_SEPERATION;
+        this.ncurve = Math.floor(step);
         let len = Math.floor(step) + 1;
         for (let i = 0; i < len; i++)
         {

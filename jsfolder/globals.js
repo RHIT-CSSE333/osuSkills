@@ -1,3 +1,5 @@
+const { Vector2d } = require("./vector2d");
+
 const MODS = {
     NF: 1,
     EZ: 2,
@@ -40,6 +42,76 @@ const AIM_POINT_TYPES = {
     AIM_POINT_SLIDEREND: 4
 }
 
+class Beatmap {
+    constructor() {
+        this.format = -1;
+        this.artist = "";
+        this.title = "";
+        this.version = "";
+        this.creator = "";
+        this.name = "";
+        this.hp = -1;
+        this.cs = -1;
+        this.od = -1;
+        this.ar = -1;
+        this.sm = -1;
+        this.st = -1;
+        this.bpmMin = -1;
+        this.bpmMax = -1;
+        this.timingPoints = [];
+        this.hitObjects = [];
+        this.aimPoints = [];
+        this.targetPoints = [];
+        this.spinners = 0;
+        this.timeMapper = {};
+        this.velocities = {
+            X: [],
+            Y: [],
+            Xchange: [],
+            Ychange: []
+        };
+        this.distances = [];
+        this.aimStrains = [];
+        this.angleStrains = [];
+        this.angles = [];
+        this.angleBonuses = [];
+        this.reactionTimes = [];
+        this.pressIntervals = [];
+        this.tapStrains = [];
+        this.streams = {};
+        this.bursts = {};
+        this.skills = {};
+        this.mods = 0;
+        this.modsString = "";
+        this.patterns = {
+            compressedStream: [],
+            stream: [],
+            stack: []
+        }
+
+    }
+}
+
+class HitObject {
+    constructor() {
+        this.pos = new Vector2d();
+        this.time = -1;
+        this.type = -1;
+        
+        this.curveType = null;
+        this.curves = [];
+        this.lerpPoints = [];
+        this.ncurve = 0;
+        this.repeat = 0;
+        this.repeatTimes = [];
+        this.pixelLength = 0;
+        this.endTime = 0;
+        this.toRepeatTime = 0;
+        this.endPoint = null;
+        this.ticks = [];
+    }
+}
+
 module.exports = {
-    MODS, HITOBJECTTYPE, CURVETYPE, AIM_POINT_TYPES
+    MODS, HITOBJECTTYPE, CURVETYPE, AIM_POINT_TYPES, Beatmap, HitObject
 }
