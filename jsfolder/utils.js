@@ -173,7 +173,7 @@ function GetChaosAt(beatmap, i, numObj)
 		let foundObject = (beatmap.aimPoints[left].time >= initialTime - 333) && (numObjCount-- != 0);
 		if (foundObject)
 		{
-			avg += beatmap.aimPoints[left].pos;
+			avg.plusequals(beatmap.aimPoints[left].pos);
 			objects++;
 		}
 		else
@@ -186,13 +186,13 @@ function GetChaosAt(beatmap, i, numObj)
 		let foundObject = (beatmap.aimPoints[right].time <= initialTime + 333) && (numObjCount-- != 0);
 		if (foundObject)
 		{
-			avg += beatmap.aimPoints[right].pos;
+			avg.plusequals(beatmap.aimPoints[right].pos);
 			objects++;
 		}
 		else
 			break;
 	}
-	avg /= objects;
+	avg.divequalssingle(objects);
 
 	return (beatmap.aimPoints[i].pos.getDistanceFrom(avg) * 100.0) / 320.0;
 }
@@ -308,7 +308,7 @@ function getMagnitude(vals)
 {
 	let sum = 0;
 	for (let i = 0; i < vals.length; i++)
-		sum += pow(vals[i], 2);
+		sum += Math.pow(vals[i], 2);
 	return Math.sqrt(sum);
 }
 
@@ -340,7 +340,7 @@ function getDecayFunction(vals, decay, output)
 	for (let i = 0; i < vals.length; i++)
 	{
 		let result = decay * feedback + vals[i];
-		let feedback = result;
+		feedback = result;
 		output.push(result);
 	}
 }
@@ -355,7 +355,7 @@ function getTopVals(vals, numVals,output)
 		{
 			if (output[j] < vals[i])
 			{
-				output.insert(output[j], vals[i]);
+				output.splice(j, 0, vals[i]);
 				if (output.length > numVals){
 					output.pop();
                 }

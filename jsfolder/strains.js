@@ -120,13 +120,13 @@ function GetAngleDecayFunc(beatmap, output) {
         else
             radSpeed *= 1 + Math.abs(Math.sin(angle)) * 100;
             
-        let currMidpoint = (prevPos + nextPos) / 2.0;
-        let prevMidPoint = (prevPrevPos + currPos) / 2.0;
+        let currMidpoint = (prevPos.plus(nextPos)).divsingle(2.0);
+        let prevMidPoint = (prevPrevPos.plus(currPos)).divsingle(2.0);
 
         let currNormal = new vector2d.Vector2d(currPos.X - currMidpoint.X,
                                                 currPos.Y - currMidpoint.Y),
             prevNormal = new vector2d.Vector2d(prevPos.X - prevMidPoint.X,
-                                                prevPox.Y - prevMidpoint.Y);
+                                                prevPos.Y - prevMidPoint.Y);
         
         if(utils.isOppositeParity(currNormal.X, prevNormal.X) ||
         utils.isOppositeParity(currNormal.Y, prevNormal.Y))

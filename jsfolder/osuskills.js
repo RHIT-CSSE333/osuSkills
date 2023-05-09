@@ -23,7 +23,7 @@ function PreprocessMap(beatmap) {
 
     generic.prepareAimData(beatmap);
     generic.prepareTapData(beatmap);
-    if (beatmap.distances.size() == 0)
+    if (beatmap.distances.length == 0)
         return 0;
     return 1;
 }
