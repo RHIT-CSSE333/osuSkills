@@ -70,7 +70,8 @@ class Slider {
 		let pos = obj.pos;
 		let timeSinceStart = 0;
 
-		if (IsHitObjectType(obj.type, SLIDER)) {
+		if (utils.IsHitObjectType(obj.type, global.HITOBJECTTYPE.Slider)) {
+			console.log('running get slider pos from getpointat')
 			pos = GetSliderPos(obj, time);
 			timeSinceStart = time - obj.time;
 		}
@@ -250,36 +251,36 @@ function GetSliderPos(hitObject, time) {
 			let repeatsDone = Math.floor(timeLength / hitObject.toRepeatTime);
 			percent = (timeLength - hitObject.toRepeatTime * repeatsDone) / hitObject.toRepeatTime;
 			if (repeatsDone % 2)
-				percent = 1 - percent; // it's going back
+				percent = 1 - percent; //it's going back
 		}
-
 
 		// get the points
 		let ncurve = hitObject.ncurve;
+		// if(!ncurve) console.log(hitObject)
 		let indexF = percent * ncurve;
 		let index = Math.floor(indexF);
 		// console.log(`hitobject:  ${hitObject.toString}`);
 		// console.log(`ncurve: ${ncurve}`)
-		// console.log(`percent: ${ncurve}`)
+		// console.log(`percent: ${percent}`)
 		// console.log(`indexF: ${indexF}`)
 
 		if(isNaN(indexF)){
 			return new vector2d.Vector2d(-1, -1);
 		}
 
-		console.log(`hitObject: `)
-		console.log(hitObject)
+		// console.log(`hitObject: `)
+		// console.log(hitObject)
 
 		if (index >= hitObject.ncurve) {
 			let poi = hitObject.lerpPoints[ncurve];
-			console.log(`poi: `)
-			console.log(poi)
+			// console.log(`poi: `)
+			// console.log(poi)
 			return new vector2d.Vector2d(poi.X, poi.Y);
 		}
 		else {
-			console.log(`index: ${index}`)
+			// console.log(`index: ${index}`)
 			let poi = hitObject.lerpPoints[index];
-			console.log(`poi.Y: ${poi.Y}, poi.X: ${poi.X}`)
+			// console.log(`poi.Y: ${poi.Y}, poi.X: ${poi.X}`)
 			let poi2 = hitObject.lerpPoints[index + 1];
 			let t2 = indexF - index;
 			return new vector2d.Vector2d(utils.lerp(poi.X, poi2.X, t2), utils.lerp(poi.Y, poi2.Y, t2));
@@ -290,5 +291,5 @@ function GetSliderPos(hitObject, time) {
 }
 
 module.exports = {
-	Slider, ApproximateSliderPoints, GetSliderPos
+	Slider, ApproximateSliderPoints, GetSliderPos, CURVE_POINTS_SEPERATION
 }

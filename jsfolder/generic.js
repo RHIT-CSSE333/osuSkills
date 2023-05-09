@@ -165,6 +165,8 @@ function gatherTargetPoints(beatmap) {
         } else if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Slider)) {
             for (let tick of hitObj.ticks) {
                 targetPoint.time = tick;
+                // console.log('getSliderPos run from gathertargetpoints')
+                // console.log(hitObj)
                 targetPoint.pos = slider.GetSliderPos(hitObj, tick);
                 targetPoint.key = i;
                 targetPoint.press = true;
@@ -186,6 +188,7 @@ function gatherAimPoints(beatmap) {
             beatmap.aimPoints.push(new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER))
 
             let endTime = utils.GetLastTickTime(hitObj)
+            // console.log('getsliderpos called from gatheraimpoints')
             let endPos = slider.GetSliderPos(hitObj, endTime);
 
             if (hitObj.ticks.length || hitObj.pos.getDistanceFrom(endPos) > 2 * utils.CS2px(beatmap.cs))
@@ -243,6 +246,8 @@ function bakeSliderData(beatmap) {
                 }
                 case 'P': {
                     if (hitObject.curves.length == 2) {
+                        // console.log(hitObject)
+
                         let c = new cc.CircumscribedCircle(hitObject);
                         hitObject.lerpPoints = c.curve;
                         hitObject.ncurve = c.ncurve;
