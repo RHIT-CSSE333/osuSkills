@@ -115,7 +115,7 @@ function gatherTapPatterns(beatmap) {
         if (!uniq.has(interval)) {
             let found = false;
             for (let p = interval - OFFSET_MAX_DISPLACEMENT; p <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
-                console.log(interval)
+                // console.log(interval)
                 if (uniq.has(p)) {
                     
                     interval = p;
@@ -134,13 +134,13 @@ function gatherTapPatterns(beatmap) {
         if (Math.abs(interval - old) > OFFSET_MAX_DISPLACEMENT) {
             tmplen = Object.keys(tmp).length;
             if (tmplen > 1) {
-                sections.old.push(tmp);
+                sections[old].push(tmp);
                 if (tmplen > 6)
                     beatmap.streams[old].push(tmp)
                 else
                     beatmap.bursts[old].push(tmp)
             }
-            tmp = {};
+            tmp = [];
         }
         tmp.push(beatmap.hitObjects[i].time)
         old = interval
