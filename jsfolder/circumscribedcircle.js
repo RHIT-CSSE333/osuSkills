@@ -1,5 +1,6 @@
 const slider = require("./slider.js")
 const vector2d = require("./vector2d.js")
+const utils = require('./utils.js')
 
 class CircumscribedCircle extends slider.Slider {
 
@@ -79,8 +80,8 @@ class CircumscribedCircle extends slider.Slider {
         let len = Math.floor(step) + 1;
         for (let i = 0; i < len; i++)
         {
-            let xy = pointAt(i / step);
-            curve.push(Vector2d(xy.X, xy.Y));
+            let xy = this.pointAt(i / step);
+            this.curve.push(new vector2d.Vector2d(xy.X, xy.Y));
         }
     }
 
@@ -105,9 +106,9 @@ intersect( a,  ta,  b,  tb)
 
 pointAt(t)
 {
-	let ang = lerp(startAng, endAng, t);
-	return new vector2d.Vector2d((cos(ang) * radius + circleCenter.X),
-					(sin(ang) * radius + circleCenter.Y));
+	let ang = utils.lerp(this.startAng, this.endAng, t);
+	return new vector2d.Vector2d((Math.cos(ang) * this.radius + this.circleCenter.X),
+					(Math.sin(ang) * this.radius + this.circleCenter.Y));
 }
 
 }
