@@ -114,8 +114,10 @@ function gatherTapPatterns(beatmap) {
     for (let interval of beatmap.pressIntervals) {
         if (!uniq.has(interval)) {
             let found = false;
-            for (let p = interval - OFFSET_MAX_DISPLACEMENT; i <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
+            for (let p = interval - OFFSET_MAX_DISPLACEMENT; p <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
+                console.log(interval)
                 if (uniq.has(p)) {
+                    
                     interval = p;
                     found = true;
                     break;
@@ -144,6 +146,7 @@ function gatherTapPatterns(beatmap) {
         old = interval
         i++
     }
+    
 }
 
 function gatherTargetPoints(beatmap) {
