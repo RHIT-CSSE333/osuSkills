@@ -25,12 +25,19 @@ function GetLongestStream(streams)
 
 function CalculateTenacity(beatmap)
 {
+	console.log('jere: ')
 	let longestStream = GetLongestStream(beatmap.streams);
 
-	let intervalScaled = 1.0 / Math.pow(longestStream.interval, Math.pow(longestStream.interval, GetVar("Tenacity", "IntervalPow")) * GetVar("Tenacity", "IntervalMult")) * GetVar("Tenacity", "IntervalMult2");
-	let lengthScaled = Math.pow(GetVar("Tenacity", "LengthDivisor") / longestStream.length, GetVar("Tenacity", "LengthDivisor") / longestStream.length * GetVar("Tenacity", "LengthMult"));
+	console.log(longestStream)
+	let intervalScaled = 1.0 / Math.pow(longestStream[0], Math.pow(longestStream[0], tweakvars.GetVar("Tenacity", "IntervalPow")) * tweakvars.GetVar("Tenacity", "IntervalMult")) * tweakvars.GetVar("Tenacity", "IntervalMult2");
+	let lengthScaled = Math.pow(tweakvars.GetVar("Tenacity", "LengthDivisor") / longestStream[1], tweakvars.GetVar("Tenacity", "LengthDivisor") / longestStream[1] * tweakvars.GetVar("Tenacity", "LengthMult"));
 	let tenacity = intervalScaled * lengthScaled;
 	beatmap.skills.tenacity = tenacity;
-	beatmap.skills.tenacity = GetVar("Tenacity", "TotalMult") * Math.pow(beatmap.skills.tenacity, GetVar("Tenacity", "TotalPow"));
+	console.log(tenacity)
+	beatmap.skills.tenacity = tweakvars.GetVar("Tenacity", "TotalMult") * Math.pow(beatmap.skills.tenacity, tweakvars.GetVar("Tenacity", "TotalPow"));
 	return beatmap.skills.tenacity;
+}
+
+module.exports = {
+    CalculateTenacity, GetLongestStream
 }

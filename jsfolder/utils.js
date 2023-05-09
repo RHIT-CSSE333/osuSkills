@@ -200,7 +200,7 @@ function GetChaosAt(beatmap, i, numObj)
 function FindTimingAt(_timings, _time)
 {
 	let start = 0;
-	let end = _timings.length - 2;
+	let end = Math.floor(_timings.length - 2);
 	let mid;
 
 	if (end < 0)
@@ -208,8 +208,7 @@ function FindTimingAt(_timings, _time)
 
 	while (start <= end)
 	{
-		mid = (start + end) / 2;
-
+		mid = (Math.floor ((start + end) / 2));
 		if (BTWN(_timings[mid].time, _time, _timings[mid + 1].time))
 			return mid + 1;
 
@@ -227,7 +226,7 @@ function FindTimingAt(_timings, _time)
         return Number.MAX_VALUE;
     }
 
-	return NaN;
+	return _timings[mid].time;
 }
 
 function AR2ms(ar) // converts AR value to ms visible before needed to click

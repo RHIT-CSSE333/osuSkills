@@ -6,8 +6,13 @@ const modFile = require('./mods.js')
 const strains = require('./strains.js')
 const globals = require('./globals.js')
 const reaction = require('./reaction.js')
+const agility = require('./agility.js')
 const stamina = require('./stamina.js')
 const tenacity = require('./tenacity.js')
+const reading = require('./reading.js')
+const accuracy = require('./accuracy.js')
+const precision = require('./precision.js')
+const memory = require('./memory.js')
 const mods = require('./mods.js')
 const generic = require('./generic.js')
 
@@ -36,14 +41,14 @@ function CalculateSkills(beatmap) {
 		if (agilityV2)
 			CalculateAgilityStrains(beatmap);  // calculates precision as well. Might seperate that later
 		else
-			CalculateAgility(beatmap);
-		CalculatePrecision(beatmap, HasMod(beatmap, HD));
-		CalculateAccuracy(beatmap);
-		if (HasMod(beatmap, FL))
+			agility.CalculateAgility(beatmap);
+		precision.CalculatePrecision(beatmap, mods.hasMod(beatmap, globals.MODS.HD));
+		accuracy.CalculateAccuracy(beatmap);
+		if (mods.hasMod(beatmap, globals.MODS.FL))
 		{
-			CalculateMemory(beatmap);
+			memory.CalculateMemory(beatmap);
 		}
-		CalculateReading(beatmap, HasMod(beatmap, HD));
+		reading.CalculateReading(beatmap, mods.hasMod(beatmap, globals.MODS.HD));
 }
 
 async function ProcessFile(filepath, mods, beatmap) {
@@ -78,7 +83,7 @@ module.exports = {
 	PreprocessMap, CalculateSkills, ProcessFile, CalculateBeatmapSkills
 }
 
-CalculateBeatmapSkills('/mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu', globals.MODS.HD & globals.MODS.DT)
+CalculateBeatmapSkills('C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu', globals.MODS.HD & globals.MODS.DT)
 
 //lukas's laptop path: /mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu
 //emma's C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu

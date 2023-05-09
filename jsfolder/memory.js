@@ -54,7 +54,7 @@ function CalculateMemory(beatmap)
 			let prev = beatmap.hitObjects[j];
 			if (cur.time - prev.time > AR2ms(beatmap.ar))
 				break;
-			if (!HasMod(beatmap, HD))
+			if (!mods.hasMod(beatmap, globals.MODS.HD))
 			{
 				let size = GetApproachRelativeSize(prev.endTime, cur.time, beatmap.ar);
 				helpPixels = Math.floor(size * CS2px(beatmap.cs));
@@ -76,7 +76,7 @@ function CalculateMemory(beatmap)
 
 		if (!observable)
 		{
-			if (!HasMod(beatmap, HD))
+			if (!mods.hasMod(beatmap, globals.MODS.HD))
 			{
 				let size = GetApproachRelativeSize(old.endTime, cur.time, beatmap.ar);
 				helpPixels = Math.floor(size * CS2px(beatmap.cs));

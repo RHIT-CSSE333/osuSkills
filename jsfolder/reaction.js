@@ -1,5 +1,6 @@
 const utils = require('./utils.js');
 const patterns = require('./patterns.js');
+const vector2d = require('./vector2d.js');
 const tweaks = require('./tweakvars.js');
 const globals = require('./globals.js');
 // #include <algorithm>
@@ -10,9 +11,9 @@ function PatternReq(p1, p2, p3, CSpx)
 	const YPOS = 1;
 	const TIME = 2;
 
-	let point1 = new Vector2d(p1.pos.X, p1.pos.Y);
-	let point2 = new Vector2d(p2.pos.X, p2.pos.Y);
-	let point3 = new Vector2d(p3.pos.X, p3.pos.Y);
+	let point1 = new vector2d.Vector2d(p1.pos.X, p1.pos.Y);
+	let point2 = new vector2d.Vector2d(p2.pos.X, p2.pos.Y);
+	let point3 = new vector2d.Vector2d(p3.pos.X, p3.pos.Y);
 
 	let dist_12 = point1.getDistanceFrom(point2);
 	let dist_23 = point2.getDistanceFrom(point3);
@@ -116,7 +117,7 @@ function Pattern2Reaction(p1, p2, p3, ARms, CSpx)
 function react2Skill(_timeToReact)
 {
 	// Original model can be found at https://www.desmos.com/calculator/lg2jqyesnu
-	let a = Math.pow(2.0, Math.log(78608.0 / 15625.0) / Math.log(34.0 / 25.0))*Math.pow(125.0, Math.log(68.0 / 25.0) / log(34.0 / 25.0));
+	let a = Math.pow(2.0, Math.log((78608.0 / 15625.0)) / Math.log((34.0 / 25.0)))*Math.pow(125.0, Math.log(68.0 / 25.0) / Math.log(34.0 / 25.0));
 	let b = Math.log(2.0) / (Math.log(2.0) - 2.0*Math.log(5.0) + Math.log(17.0));
 	return a / Math.pow(_timeToReact, b);
 }
@@ -125,11 +126,15 @@ function getReactionSkillAt(targetpoints, targetpoint, hitobjects, CS, AR, hidde
 {
 	let timeToReact = 0.0;
 	let FadeInReactReq = tweaks.GetVar("Reaction", "FadeinPercent"); // players can react once the note is 10% faded in
+	console.log(targetpoint.time)
 	let index = utils.FindTimingAt(targetpoints, targetpoint.time);
 
-	if (index >= targetpoints.size() - 2)
+	console.log('index')
+	console.log(index)
+
+	if (index >= targetpoints.length -2)
 	{
-		timeToReact = AR2ms(AR);
+		timeToReact = utils.AR2ms(AR);
 	}
 	else if (index < 3)
 	{
@@ -147,15 +152,16 @@ function getReactionSkillAt(targetpoints, targetpoint, hitobjects, CS, AR, hidde
 		if (targetpoint.press == true)
 			timeSinceStart = Math.abs(targetpoint.time - hitobjects[targetpoint.key].time);  // Time since started holding slider
 
-		let visibilityTimes = getVisiblityTimes(hitobjects[0], AR, hidden, FadeInReactReq, 1.0);
+		let visibilityTimes = patterns.getVisibilityTimes(hitobjects[0], AR, hidden, FadeInReactReq, 1.0);
 		let actualARTime = (hitobjects[0].time - visibilityTimes.first) + timeSinceStart;
 
-		let result = Pattern2Reaction(t1, t2, t3, actualARTime, CS2px(CS));
+		
+		let result = Pattern2Reaction(t1, t2, t3, actualARTime, utils.CS2px(CS));
 		timeToReact = Math.sqrt(timeToReact*timeToReact + result*result);
 	}
 
 	//return 28.0*pow(react2Skill(timeToReact), 0.524); // to fit it on scale compared to other skills (v1)
-	return tweaks.GetVar("Reaction", "VerScale")*Math.pow(react2Skill(timeToReact), GetVar("Reaction", "CurveExp")); // to fit it on scale compared to other skills (v2)
+	return tweaks.GetVar("Reaction", "VerScale")*Math.pow(react2Skill(timeToReact), tweaks.GetVar("Reaction", "CurveExp")); // to fit it on scale compared to other skills (v2)
 }
 
 function CalculateReaction(beatmap, hidden)
@@ -175,5 +181,5 @@ function CalculateReaction(beatmap, hidden)
 }
 
 module.exports = {
-	CalculateReaction
+	PatternReq, CalculateReaction, isHitobjectAt, getNextTickPoint, Pattern2Reaction, react2Skill, getReactionSkillAt, CalculateReaction
 }
