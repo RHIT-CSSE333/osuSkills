@@ -164,7 +164,7 @@ function CalculateReaction(beatmap, hidden)
 	let avg = 0;
 	let weight = tweaks.GetVar("Reaction", "AvgWeighting");
 
-    beatmap.targetPoints.forEach((ticks) => {
+    beatmap.targetPoints.forEach((tick) => {
         let val = getReactionSkillAt(beatmap.targetPoints, tick, beatmap.hitObjects, beatmap.cs, beatmap.ar, hidden);
 
 		if (val > max)			max = val;
