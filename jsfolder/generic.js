@@ -181,8 +181,8 @@ function gatherTargetPoints(beatmap) {
 function gatherAimPoints(beatmap) {
     for (let hitObj of beatmap.hitObjects) {
         if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Normal)) {
-            beatmap.aimPoints.push([hitObj.time, hitobs.pos, globals.AIM_POINT_TYPES.AIMPOINTCIRCLE])
-        } else if (IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Slider)) {
+            beatmap.aimPoints.push([hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIMPOINTCIRCLE])
+        } else if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Slider)) {
             beatmap.aimPoints.push([hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER]);
 
             let endTime = utils.GetLastTickTime(hitObj)
@@ -195,8 +195,8 @@ function gatherAimPoints(beatmap) {
 }
 
 function calculateAngles(beatmap) {
-    for (let i = 0; i + 2 < beatmap.aimPoints.size(); i++) {
-        let angle = GetDirAngle(beatmap.aimPoints[i].pos, beatmap.aimPoints[i + 1].pos,
+    for (let i = 0; i + 2 < beatmap.aimPoints.length; i++) {
+        let angle = utils.GetDirAngle(beatmap.aimPoints[i].pos, beatmap.aimPoints[i + 1].pos,
             beatmap.aimPoints[i + 2].pos)
 
         beatmap.angles.push(angle);

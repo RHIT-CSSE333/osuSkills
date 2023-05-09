@@ -2,7 +2,6 @@ const utils = require("./utils.js");
 const vector2d = require("./vector2d.js");
 const bezier = require("./bezier.js")
 const globals = require('./globals.js')
-const mathjs = require('math.js')
 
 const CURVE_POINTS_SEPERATION = 5;
 
@@ -242,26 +241,37 @@ function GetSliderPos(hitObject, time) {
 				percent = 1 - percent; // it's going back
 		}
 
-		console.log(`percent: ${percent}`)
 
 		// get the points
 		let ncurve = hitObject.ncurve;
 		let indexF = percent * ncurve;
 		let index = Math.floor(indexF);
-
+		console.log(`hitobject:  ${hitObject}`);
+		console.log(`ncurve: ${ncurve}`)
+		console.log(`percent: ${ncurve}`)
 		console.log(`indexF: ${indexF}`)
+
+		if(isNaN(indexF)){
+			return new vector2d.Vector2d(-1, -1);
+		}
 
 		console.log(`hitObject: `)
 		console.log(hitObject)
 
 		if (index >= hitObject.ncurve) {
 			let poi = hitObject.lerpPoints[ncurve];
+			console.log(`poi: `)
+			console.log(poi)
 			return new vector2d.Vector2d(poi.X, poi.Y);
 		}
 		else {
+			console.log('index: ')
 			console.log(index)
 			let poi = hitObject.lerpPoints[index];
+			console.log(`poi: `)
 			console.log(poi)
+			console.log(`X: `)
+			console.log(poi.X)
 			let poi2 = hitObject.lerpPoints[index + 1];
 			let t2 = indexF - index;
 			return new vector2d.Vector2d(utils.lerp(poi.X, poi2.X, t2), utils.lerp(poi.Y, poi2.Y, t2));

@@ -57,12 +57,12 @@ function GetLastTickTime(hitObj)
 	if (!(hitObj.ticks.length == 0))
 	{
 		if (hitObj.repeat > 1)
-			return Number(hitObj.endTime - (hitObj.endTime - hitObj.repeatTimes.back()) / 2.0);
+			return Number(hitObj.endTime - (hitObj.endTime - hitObj.repeatTimes[hitObj.repeatTimes.length-1]) / 2.0);
 		else
 			return Number(hitObj.endTime - (hitObj.endTime - hitObj.time) / 2.0);
 	}
 	else
-		return Number(hitObj.endTime - (hitObj.endTime - hitObj.ticks.back()) / 2.0);
+		return Number(hitObj.endTime - (hitObj.endTime - hitObj.ticks[hitObj.ticks.length-1]) / 2.0);
 }
 
 
