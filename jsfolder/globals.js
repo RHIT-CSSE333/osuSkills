@@ -112,6 +112,14 @@ class HitObject {
     }
 }
 
+class AimPoint {
+    constructor(time, pos, type) {
+        this.pos = pos;
+        this.time = time;
+        this.type = type;
+    }
+}
+
 module.exports = {
-    MODS, HITOBJECTTYPE, CURVETYPE, AIM_POINT_TYPES, Beatmap, HitObject
+    MODS, HITOBJECTTYPE, CURVETYPE, AIM_POINT_TYPES, Beatmap, HitObject, AimPoint
 }

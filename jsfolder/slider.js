@@ -33,13 +33,17 @@ class Slider {
 			if (line) {
 				if (lastPoi != new vector2d.Vector2d(-1, -1)) {
 					points.push(tpoi);
+
+					if(!Array.isArray(points)) console.log('error on line 37')
 					beziers.push(new bezier.Bezier(points));
 					points = [];
 				}
 			}
 			else if ((lastPoi != new vector2d.Vector2d(-1, -1)) && (tpoi == lastPoi)) {
-				if (points.size() >= 2)
+				if (points.size() >= 2) {
+					if(!Array.isArray(points)) console.log('error on line 44')
 					beziers.push(new bezier.Bezier(points));
+				}
 				points = [];
 			}
 			points.push(tpoi);
@@ -51,7 +55,10 @@ class Slider {
 			// probably ending on a red point, just ignore it
 		}
 		else {
-			beziers.push(new bezier.Bezier(points));
+			if(points) {
+				if(!Array.isArray(points)) console.log('error on line 59')
+				beziers.push(new bezier.Bezier(points));
+			}
 			points = [];
 		}
 
@@ -84,8 +91,10 @@ class Slider {
 		// if the slider has no curve points, force one in 
 		// a hitobject that the player holds must have at least one point
 		if (curvesList.length == 0) {
+			if(!Array.isArray(hitObject.pos)) console.log('error on line 94')
 			curvesList.push(new bezier.Bezier([hitObject.pos]));
 			hitObject.endPoint = hitObject.pos;
+			console.log(`adding empty slider`)
 		}
 
 		// console.log('second')
@@ -94,7 +103,7 @@ class Slider {
 		let distanceAt = 0;
 		let curveCounter = 0;
 		let curPoint = 0;
-		let curCurve = new bezier.Bezier(curvesList[curveCounter++]);
+		let curCurve = curvesList[curveCounter++];
 		// console.log(curCurve)
 		let lastCurve = curCurve.curvePoints[0];
 		let lastDistanceAt = 0;
@@ -133,9 +142,12 @@ class Slider {
 			if (distanceAt - lastDistanceAt > 1) {
 				let t = (prefDistance - lastDistanceAt) / (distanceAt - lastDistanceAt);
 				// console.log('im fucking leeeeerpiiiing')
-				this.curve.push(new vector2d.Vector2d(utils.lerp(lastCurve.X, thisCurve.X, t), utils.lerp(lastCurve.Y, thisCurve.Y, t)));
+				let v = new vector2d.Vector2d(utils.lerp(lastCurve.X, thisCurve.X, t), utils.lerp(lastCurve.Y, thisCurve.Y, t))
+				if(v.X == 0 && v.Y == 0) console.log('adding 0')
+				this.curve.push(v);
 			}
 			else {
+				// if(thisCurve.X == 0 && thisCurve.Y == 0) console.log(`pushing 0,0 at i = ${i}`)
 				this.curve.push(thisCurve);
 			}
 		}
@@ -246,10 +258,10 @@ function GetSliderPos(hitObject, time) {
 		let ncurve = hitObject.ncurve;
 		let indexF = percent * ncurve;
 		let index = Math.floor(indexF);
-		console.log(`hitobject:  ${hitObject}`);
-		console.log(`ncurve: ${ncurve}`)
-		console.log(`percent: ${ncurve}`)
-		console.log(`indexF: ${indexF}`)
+		// console.log(`hitobject:  ${hitObject.toString}`);
+		// console.log(`ncurve: ${ncurve}`)
+		// console.log(`percent: ${ncurve}`)
+		// console.log(`indexF: ${indexF}`)
 
 		if(isNaN(indexF)){
 			return new vector2d.Vector2d(-1, -1);
@@ -265,13 +277,9 @@ function GetSliderPos(hitObject, time) {
 			return new vector2d.Vector2d(poi.X, poi.Y);
 		}
 		else {
-			console.log('index: ')
-			console.log(index)
+			console.log(`index: ${index}`)
 			let poi = hitObject.lerpPoints[index];
-			console.log(`poi: `)
-			console.log(poi)
-			console.log(`X: `)
-			console.log(poi.X)
+			console.log(`poi.Y: ${poi.Y}, poi.X: ${poi.X}`)
 			let poi2 = hitObject.lerpPoints[index + 1];
 			let t2 = indexF - index;
 			return new vector2d.Vector2d(utils.lerp(poi.X, poi2.X, t2), utils.lerp(poi.Y, poi2.Y, t2));

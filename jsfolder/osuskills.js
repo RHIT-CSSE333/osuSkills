@@ -76,4 +76,4 @@ module.exports = {
 	PreprocessMap, CalculateSkills, ProcessFile, CalculateBeatmapSkills
 }
 
-CalculateBeatmapSkills('C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu', globals.MODS.HD & globals.MODS.DT)
+CalculateBeatmapSkills('/mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu', globals.MODS.HD & globals.MODS.DT)

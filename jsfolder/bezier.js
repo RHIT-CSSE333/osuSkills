@@ -22,7 +22,11 @@ class Bezier {
 	init(approxlength) {
 		// console.log('begin init')
 		// subdivide the curve
+		// console.log('\n\n\n')
+		// console.log(this._points);
+
 		let ncurve = Math.floor((approxlength / 4.0) + 2);
+		if(ncurve == 0) console.log('ncurve == 0')
 		for (let i = 0; i < ncurve; i++) {
 			let point = this.pointAt(i/ (ncurve - 1));
 			this.curvePoints.push(point);

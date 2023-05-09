@@ -114,7 +114,7 @@ function gatherTapPatterns(beatmap) {
     for (let interval of beatmap.pressIntervals) {
         if (!uniq.has(interval)) {
             let found = false;
-            for (let p = inteval - OFFSET_MAX_DISPLACEMENT; i <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
+            for (let p = interval - OFFSET_MAX_DISPLACEMENT; i <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
                 if (uniq.has(p)) {
                     interval = p;
                     found = true;
@@ -181,21 +181,27 @@ function gatherTargetPoints(beatmap) {
 function gatherAimPoints(beatmap) {
     for (let hitObj of beatmap.hitObjects) {
         if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Normal)) {
-            beatmap.aimPoints.push([hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIMPOINTCIRCLE])
+            beatmap.aimPoints.push(new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_CIRCLE))
         } else if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Slider)) {
-            beatmap.aimPoints.push([hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER]);
+            beatmap.aimPoints.push(new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER))
 
             let endTime = utils.GetLastTickTime(hitObj)
             let endPos = slider.GetSliderPos(hitObj, endTime);
 
             if (hitObj.ticks.length || hitObj.pos.getDistanceFrom(endPos) > 2 * utils.CS2px(beatmap.cs))
-                beatmap.aimPoints.push([endTime, endPos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDEREND]);
+                beatmap.aimPoints.push(new globals.AimPoint(endTime, endPos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDEREND));
         }
+
+        if(!hitObj.pos) console.log(hitObj)
     }
 }
 
 function calculateAngles(beatmap) {
     for (let i = 0; i + 2 < beatmap.aimPoints.length; i++) {
+        // console.log(`index: ${i}`)
+        // console.log(beatmap.aimPoints[i])
+        // console.log(beatmap.aimPoints[i+1])
+        // console.log(beatmap.aimPoints[i+2])
         let angle = utils.GetDirAngle(beatmap.aimPoints[i].pos, beatmap.aimPoints[i + 1].pos,
             beatmap.aimPoints[i + 2].pos)
 

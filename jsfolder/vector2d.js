@@ -89,7 +89,7 @@ class Vector2d {
 
     get nor() { return new Vector2d(-this.Y, this.X) }
 
-    get ToString() {
+    get toString() {
         return (`Vector2D[X: ${this.X}, Y: ${this.Y}]`)
     }
 }
