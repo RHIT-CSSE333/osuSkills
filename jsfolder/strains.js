@@ -18,7 +18,7 @@ function CalculateTapStrains(beatmap) {
                     tweaks.GetVar("Stamina", "Mult"));
             }
 
-            console.log(`strain: ${strain}`)
+            // console.log(`strain: ${strain}`)
 
             beatmap.tapStrains.push(strain);
         } else {
@@ -34,7 +34,7 @@ function CalculateTapStrains(beatmap) {
                 strain += oldbonus * tweaks.GetVar("Stamina", "Decay");
             }
 
-            console.log(strain)
+            // console.log(strain)
 
             beatmap.tapStrains.push(strain);
         }

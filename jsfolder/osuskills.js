@@ -83,7 +83,15 @@ module.exports = {
 	PreprocessMap, CalculateSkills, ProcessFile, CalculateBeatmapSkills
 }
 
-CalculateBeatmapSkills('C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu', globals.MODS.HD & globals.MODS.DT)
+const directories = [
+	'/home/lukas/Downloads/1972113 Tommy heavenly6 - PAPERMOON (TV Size) [no video]/Tommy heavenly6 - PAPERMOON (TV Size) (enri) [Insane].osu',
+	'/mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu',
+	'C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu'
+]
 
+CalculateBeatmapSkills(directories[0], globals.MODS.HD & globals.MODS.DT)
+
+
+//lukas's desktop path: /home/lukas/Downloads/1972113 Tommy heavenly6 - PAPERMOON (TV Size) [no video]/Tommy heavenly6 - PAPERMOON (TV Size) (enri) [Insane].osu
 //lukas's laptop path: /mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu
 //emma's C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu

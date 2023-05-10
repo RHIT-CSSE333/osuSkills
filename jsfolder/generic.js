@@ -114,7 +114,7 @@ function gatherTapPatterns(beatmap) {
     for (let interval of beatmap.pressIntervals) {
         if (!uniq.has(interval)) {
             let found = false;
-            for (let p = interval - OFFSET_MAX_DISPLACEMENT; p <= interval + OFFSET_MAX_DISPLACEMENT; p++) {
+            for (let p = (interval - OFFSET_MAX_DISPLACEMENT); p <= (interval + OFFSET_MAX_DISPLACEMENT); p++) {
                 // console.log(interval)
                 if (uniq.has(p)) {
                     
@@ -132,13 +132,16 @@ function gatherTapPatterns(beatmap) {
         }
 
         if (Math.abs(interval - old) > OFFSET_MAX_DISPLACEMENT) {
-            tmplen = Object.keys(tmp).length;
-            if (tmplen > 1) {
+            if (tmp.length > 1) {
+                if(!sections[old].length) sections[old] = [];
                 sections[old].push(tmp);
-                if (tmplen > 6)
+                if (tmp.length > 6) {
+                    if(!beatmap.streams[old].length) beatmap.streams[old] = [];
                     beatmap.streams[old].push(tmp)
-                else
+                } else {
+                    if(!beatmap.bursts[old].length) beatmap.bursts[old] = [];
                     beatmap.bursts[old].push(tmp)
+                }
             }
             tmp = [];
         }
@@ -243,8 +246,8 @@ function bakeSliderData(beatmap) {
                     let s = new slider.Slider(hitObject, false);
                     hitObject.lerpPoints = s.curve;
                     hitObject.ncurve = s.ncurve;
-                    console.log('B:')
-                    console.log(s.curve)
+                    // console.log('B:')
+                    // console.log(s.curve)
                     break;
                 }
                 case 'P': {
@@ -258,10 +261,10 @@ function bakeSliderData(beatmap) {
                         // console.log(c.curve)
                     } else {
                         let s = new slider.Slider(hitObject, false)
-                        console.log('P, slider:')
+                        // console.log('P, slider:')
                         hitObject.lerpPoints = s.curve;
                         hitObject.ncurve = s.ncurve
-                        console.log(s.curve)
+                        // console.log(s.curve)
                     }
                     break;
                 }

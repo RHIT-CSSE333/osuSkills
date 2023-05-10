@@ -126,11 +126,11 @@ function getReactionSkillAt(targetpoints, targetpoint, hitobjects, CS, AR, hidde
 {
 	let timeToReact = 0.0;
 	let FadeInReactReq = tweaks.GetVar("Reaction", "FadeinPercent"); // players can react once the note is 10% faded in
-	console.log(targetpoint.time)
+	// console.log(targetpoint.time)
 	let index = utils.FindTimingAt(targetpoints, targetpoint.time);
 
-	console.log('index')
-	console.log(index)
+	// console.log('index')
+	// console.log(index)
 
 	if (index >= targetpoints.length -2)
 	{
