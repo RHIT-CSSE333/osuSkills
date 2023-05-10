@@ -189,16 +189,24 @@ function gatherTargetPoints(beatmap) {
 function gatherAimPoints(beatmap) {
     for (let hitObj of beatmap.hitObjects) {
         if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Normal)) {
-            beatmap.aimPoints.push(new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_CIRCLE))
+            let newAimpoint = new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_CIRCLE)
+            beatmap.aimPoints.push(newAimpoint)
+            // console.log(newAimpoint);
         } else if (utils.IsHitObjectType(hitObj.type, globals.HITOBJECTTYPE.Slider)) {
-            beatmap.aimPoints.push(new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER))
+            let newAimpoint = new globals.AimPoint( hitObj.time, hitObj.pos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDER);
+            beatmap.aimPoints.push(newAimpoint)
+            // console.log(newAimpoint);
 
             let endTime = utils.GetLastTickTime(hitObj)
+            // console.log(`endTime: ${endTime}`)
             // console.log('getsliderpos called from gatheraimpoints')
             let endPos = slider.GetSliderPos(hitObj, endTime);
 
-            if (hitObj.ticks.length || hitObj.pos.getDistanceFrom(endPos) > 2 * utils.CS2px(beatmap.cs))
-                beatmap.aimPoints.push(new globals.AimPoint(endTime, endPos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDEREND));
+            if (hitObj.ticks.length || hitObj.pos.getDistanceFrom(endPos) > 2 * utils.CS2px(beatmap.cs)) {
+                let newAimpoint = new globals.AimPoint(endTime, endPos, globals.AIM_POINT_TYPES.AIM_POINT_SLIDEREND)
+                beatmap.aimPoints.push(newAimpoint);
+                // console.log(newAimpoint);
+            }
         }
 
         if(!hitObj.pos) console.log(hitObj)

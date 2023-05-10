@@ -53,20 +53,22 @@ function GetWeightedAimDistance(distance) {
 
 function GetWeightedAimTime(time) {
     let timeBonus = Math.pow(time * tweaks.GetVar("Agility", "TimeMult"),
-        GetVar("Agility", "TimePow"));
+        tweaks.GetVar("Agility", "TimePow"));
 
     return time * timeBonus;
 }
 
-/*function CalculateAimStrains(beatmap) {
+function CalculateAimStrains(beatmap) {
     let oldStrain = 0;
     for(let i = 0; i < beatmap.aimPoints.length; i++) {
         let strain = 0;
-        if(i) {
+        if(i != 0) {
             let distance = GetWeightedAimDistance(beatmap.aimPoints[i].pos.
                 getDistanceFrom(beatmap.aimPoints[i - 1].pos));
             
             let interval = beatmap.aimPoints[i].time - beatmap.aimPoints[i-1].time;
+            // console.log(`i=${i}\ni: ${beatmap.aimPoints[i].time}\ni-1: ${beatmap.aimPoints[i-1].time}`)
+            let time = GetWeightedAimTime(interval);
             let angleBonus = 1;
             if(i > 1)
                 angleBonus = 1 + (tweaks.GetVar("Agility", "AngleMult") * beatmap.angleBonuses[i-2]);
@@ -74,7 +76,7 @@ function GetWeightedAimTime(time) {
             if(time > 0)
                 strain = distance / time * angleBonus;
             else {
-                console.log(`${beatmap.name} Agility strain calc: time <= 0`)
+                // console.log(`${beatmap.name} Agility strain calc: time <= 0`)
                 continue;
             }
 
@@ -92,7 +94,7 @@ function GetWeightedAimTime(time) {
         beatmap.aimStrains.push(strain);
         oldStrain = strain;
     }
-}*/
+}
 
 function GetAngleDecayFunc(beatmap, output) {
     let angleSpeeds = [];
@@ -176,7 +178,7 @@ function GetPrecisionDecayFunc(beatmap, output) {
     beatmap.skills.precision = utils.getWeightedValue(topWeights, 0.99) * 0.5;
 }
 
-function CalculateAimStrains(beatmap) {
+function CalculateAgilityStrains(beatmap) {
     let angles = [], chaos = [], precision = [];
     let weightVals = [], weightFunc = [];
 
@@ -203,10 +205,10 @@ function CalculateAimStrains(beatmap) {
 }
 
 function ClearStrains(beatmap) {
-    beatmap.tapStrains.clear();
-    beatmap.aimStrains.clear();
+    beatmap.tapStrains = [];
+    beatmap.aimStrains = [];
 }
 
 module.exports = {
-    CalculateTapStrains, CalculateAimStrains, ClearStrains
+    CalculateTapStrains, CalculateAimStrains, ClearStrains, CalculateAgilityStrains
 }

@@ -167,8 +167,12 @@ class Slider {
 function ApproximateSliderPoints(beatmap) {
 	let timingPointOffsets = [];
 	let beatLengths = [];
-	let base = 0.0;
+	let base;
 	for (let i = 0; i < beatmap.timingPoints.length; i++) {
+		if(!beatmap.timingPoints[i].offset) {
+			// console.log(beatmap.timingPoints[i])
+			// console.log(`@i=${i}`)
+		}
 		timingPointOffsets.push(beatmap.timingPoints[i].offset);
 
 		if (beatmap.timingPoints[i].inherited) {
@@ -179,6 +183,9 @@ function ApproximateSliderPoints(beatmap) {
 			base = beatmap.timingPoints[i].beatInterval;
 		}
 	}
+
+	// console.log('final timing points?')
+	// console.log(timingPointOffsets)
 
 	let i = 0;
 	for (hitObject of beatmap.hitObjects) {
@@ -202,15 +209,19 @@ function ApproximateSliderPoints(beatmap) {
 			const errInterval = 10;
 			let j = 1;
 
-			for (let i = hitObject.time + tickInterval; i < (hitObject.endTime - errInterval); i += tickInterval) {
-				if (i > hitObject.endTime) break;
+			for (let k = hitObject.time + tickInterval; k < (hitObject.endTime - errInterval); k += tickInterval) {
+				if (k > hitObject.endTime) break;
 
 				let tickTime = hitObject.time + Math.floor(tickInterval * j);
 				if (tickTime < 0) break;
 
+				// console.log(`pushing tickTime: ${tickTime}`)
+
 				hitObject.ticks.push(tickTime);
 				j++;
 			}
+
+			// if(hitObject.ticks.length > 0) console.log(hitObject.ticks)
 
 			// If the slider starts and ends in less than 100ms and has no ticks to allow a sliderbreak, then make it a short generic slider
 			if ((Math.abs(hitObject.endTime - hitObject.time) < 100) && (hitObject.ticks.length == 0)) {

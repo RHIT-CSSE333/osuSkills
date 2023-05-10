@@ -54,15 +54,20 @@ function getPercent(_min, _val, _max)
 
 function GetLastTickTime(hitObj)
 {
-	if (!(hitObj.ticks.length == 0))
+	if (hitObj.ticks.length != 0)
 	{
+		let retVal = 0;
 		if (hitObj.repeat > 1)
-			return Number(hitObj.endTime - (hitObj.endTime - hitObj.repeatTimes[hitObj.repeatTimes.length-1]) / 2.0);
+			retVal = Math.floor(hitObj.endTime - (hitObj.endTime - hitObj.repeatTimes[hitObj.repeatTimes.length-1]) / 2.0);
 		else
-			return Number(hitObj.endTime - (hitObj.endTime - hitObj.time) / 2.0);
+			retVal = Math.floor(hitObj.endTime - (hitObj.endTime - hitObj.time) / 2.0);
+		return retVal;
 	}
-	else
-		return Number(hitObj.endTime - (hitObj.endTime - hitObj.ticks[hitObj.ticks.length-1]) / 2.0);
+	else {
+		// console.log(hitObj)
+		let retVal = Math.floor(hitObj.endTime - (hitObj.endTime) / 2.0);
+		return retVal;
+	}
 }
 
 

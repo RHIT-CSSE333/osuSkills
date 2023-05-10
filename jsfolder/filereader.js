@@ -146,6 +146,7 @@ function parseBeatmap(filepath, beatmap) {
 
                 if (tokens.length < 2) {
                     found = FOUND.FOUND_NONE;
+                    return;
                 }
 
                 tPoint.offset = Number(tokens[0])
@@ -158,7 +159,8 @@ function parseBeatmap(filepath, beatmap) {
                 if (tokens.length >= 3) tPoint.meter = Number(tokens[2]);
                 else tPoint.meter = 4;
 
-                if (tPoint.offset == -1 || tPoint.meter == -1) {
+                if (!tPoint.offset || !tPoint.meter) {
+                    console.log(tokens)
                     console.log(`${beatmap.name} has wrong timing point data`)
                     resolve(0);
                 }
