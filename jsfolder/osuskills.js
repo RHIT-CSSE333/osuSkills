@@ -84,9 +84,10 @@ module.exports = {
 }
 
 const directories = [
-	'/home/lukas/Downloads/1972113 Tommy heavenly6 - PAPERMOON (TV Size) [no video]/Tommy heavenly6 - PAPERMOON (TV Size) (enri) [Insane].osu',
-	'/mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu',
-	'C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu'
+	// '/home/lukas/Downloads/1972113 Tommy heavenly6 - PAPERMOON (TV Size) [no video]/Tommy heavenly6 - PAPERMOON (TV Size) (enri) [Insane].osu',
+	// '/mnt/c/Users/urbonal/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu',
+	// 'C:/Users/letscher/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu',
+	'/Users/larissakrakora/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu'
 ]
 
 CalculateBeatmapSkills(directories[0], globals.MODS.HD & globals.MODS.DT)
