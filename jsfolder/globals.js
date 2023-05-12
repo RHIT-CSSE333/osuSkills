@@ -80,7 +80,16 @@ class Beatmap {
         this.tapStrains = [];
         this.streams = {};
         this.bursts = {};
-        this.skills = {};
+        this.skills = {
+            agility: 0,
+            tenacity: 0,
+            stamina: 0,
+            accuracy: 0,
+            precision: 0,
+            reaction: 0,
+            memory: 0,
+            reading: 0
+        };
         this.mods = 0;
         this.modsString = "";
         this.patterns = {

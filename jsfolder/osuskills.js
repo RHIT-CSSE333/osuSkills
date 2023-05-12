@@ -63,9 +63,13 @@ async function ProcessFile(filepath, mods, beatmap) {
 }
 
 async function CalculateBeatmapSkills(filepath, mods) {
+	let formattedMods = 0 | ((mods.includes('HR')) ? globals.MODS.HR : 0) |
+						((mods.includes('DT')) ? globals.MODS.DT : 0) |
+						((mods.includes('HD')) ? globals.MODS.HD : 0) | 
+						((mods.includes('FL')) ? globals.MODS.FL : 0);
 	let beatmap = new globals.Beatmap()
 
-	if(await ProcessFile(filepath, mods, beatmap) == 0) {
+	if(await ProcessFile(filepath, formattedMods, beatmap) == 0) {
 		console.log(`failed to parse @${filepath}!`);
 		return 1;
 	}
@@ -74,9 +78,9 @@ async function CalculateBeatmapSkills(filepath, mods) {
 	strains.CalculateTapStrains(beatmap);
 	CalculateSkills(beatmap);
 
-	console.log(beatmap.skills)
+	// console.log(beatmap.skills)
 
-	return beatmap;
+	return beatmap.skills;
 }
 
 module.exports = {
@@ -90,7 +94,7 @@ const directories = [
 	'/Users/larissakrakora/Downloads/Tommy_heavenly6_-_PAPERMOON_TV_Size_enri_Insane.osu'
 ]
 
-CalculateBeatmapSkills(directories[0], globals.MODS.HD & globals.MODS.DT)
+// CalculateBeatmapSkills(directories[0], globals.MODS.HD & globals.MODS.DT)
 
 
 //lukas's desktop path: /home/lukas/Downloads/1972113 Tommy heavenly6 - PAPERMOON (TV Size) [no video]/Tommy heavenly6 - PAPERMOON (TV Size) (enri) [Insane].osu

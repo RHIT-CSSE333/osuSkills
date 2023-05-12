@@ -216,8 +216,11 @@ function parseBeatmap(filepath, beatmap) {
                     console.log(`mode invalid: ${mode}`);
                     resolve(0);
                 }
-            } else if (line.substring(0, 17) == "osu file format v")
-                beatmap.format = Number(line.substring(17));
+            } else if (line.includes('osu file format v')) {
+                let format = Number(line.substring(18));
+                // console.log(format)
+                beatmap.format = format;
+            }
         })
 
         r1.on('close', (input) => {

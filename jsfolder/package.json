@@ -2,7 +2,7 @@
   "name": "osuskillsjs",
   "version": "1.0.0",
   "description": "Osu skills calculator rewritten in javscript",
-  "main": "osuskils.js",
+  "main": "osuskills.js",
   "scripts": {
     "test": "node osuskills.js"
   },

@@ -40,7 +40,7 @@ function applyMods(beatmap, mods) {
             timing.offset = Math.ceil(timing.offset / 0.75);
         }
 
-        beatmap.ar = utils.ms2AR(Math.floor(AR2ms(beatmap.ar) / 0.75))
+        beatmap.ar = utils.ms2AR(Math.floor(utils.AR2ms(beatmap.ar) / 0.75))
     }
 
     if(hasMod(beatmap, globals.MODS.DT)) {
@@ -55,7 +55,7 @@ function applyMods(beatmap, mods) {
             timing.offset = Math.ceil(timing.offset / 1.5);
         }
 
-        beatmap.ar = utils.ms2AR(Math.floor(AR2ms(beatmap.ar) / 1.5))
+        beatmap.ar = utils.ms2AR(Math.floor(utils.AR2ms(beatmap.ar) / 1.5))
     }
 
     return 1;
